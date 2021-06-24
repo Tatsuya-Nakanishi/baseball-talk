@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const SbChat = (propsc) => {
+const SbChat = (props) => {
     const classes = useStyles();
     const {teamId} = useParams();
 
@@ -61,17 +61,27 @@ const SbChat = (propsc) => {
         setComment(newMessage);
     }
 
-    const handleClick = ()=> {
-        window.fetch('/api/comment/${teamId}/post', {
+    const handleClick = (item)=> {
+        window.fetch(`/api/comment/${teamId}/post`, {
             method: 'POST',
-            body: JSON.stringify(items),
+            body: JSON.stringify(item),
             headers: {'Content-Type': 'application/json'}
         }).then(res => {
                 if (res.ok){
-                    //useEffect({});
+                    getWebApi();
                 }
             })
     };
+
+    const getWebApi = (items) =>{
+        window.fetch(`/api/comment/${teamId}`, {})
+            .then(res => res.json())
+            .then(response => {
+                setItems([...response]);
+            })
+            .catch(error => console.error('データを取得できませんでした。：', error));
+
+    }
 
     useEffect (() => {
         window.fetch(`/api/comment/${teamId}`, {})
