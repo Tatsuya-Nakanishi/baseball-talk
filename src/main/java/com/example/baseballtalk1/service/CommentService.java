@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface CommentService {
     List<Comment> findByTeamId(Integer teamId);
+    void commentInsert(Comment comment);
 
 }

@@ -23,4 +23,10 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> commentList = commentMapper.findByTeamId(teamId);
         return commentList;
     }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void commentInsert(Comment comment) {
+        commentMapper.commentInsert(comment);
+    }
 }

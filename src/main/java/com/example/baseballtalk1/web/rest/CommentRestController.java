@@ -2,12 +2,13 @@ package com.example.baseballtalk1.web.rest;
 
 import com.example.baseballtalk1.persistence.entity.Comment;
 import com.example.baseballtalk1.service.CommentService;
+import com.example.baseballtalk1.web.request.CommentRequest;
 import com.example.baseballtalk1.web.response.CommentResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,5 +31,24 @@ public class CommentRestController {
             commentResponseList.add(commentResponse);
         }
         return commentResponseList;
+    }
+    @PostMapping("/{teamId}/post")
+    public ResponseEntity<CommentResponse> commentInsert(@PathVariable Integer teamId,
+                                                         @RequestBody CommentRequest commentRequest) {
+        Comment comment = commentRequest.convertToEntity();
+
+        comment.setTeamId(teamId);
+
+        comment.setLikePoint(0);
+
+        commentService.commentInsert(comment);
+
+        CommentResponse commentResponse = new CommentResponse(comment);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .pathSegment(comment.getId().toString())
+                .build().encode().toUri();
+
+        return ResponseEntity.created(location).body(commentResponse);
     }
 }
