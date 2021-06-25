@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const SbChat = (props) => {
+const Chat = (props) => {
     const classes = useStyles();
     const {teamId} = useParams();
 
@@ -61,10 +61,11 @@ const SbChat = (props) => {
         setComment(newMessage);
     }
 
-    const handleClick = (item)=> {
+    const handleClick = ()=> {
+        const params = {...comment}
         window.fetch(`/api/comment/${teamId}/post`, {
             method: 'POST',
-            body: JSON.stringify(item),
+            body: JSON.stringify(params),
             headers: {'Content-Type': 'application/json'}
         }).then(res => {
                 if (res.ok){
@@ -132,4 +133,4 @@ const SbChat = (props) => {
 
     );
 };
-export default SbChat;
+export default Chat;

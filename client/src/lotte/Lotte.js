@@ -1,6 +1,5 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {BrowserRouter, useHistory} from "react-router-dom";
 import Chat from "../Chat";
 
 const useStyles = makeStyles({
@@ -13,17 +12,17 @@ const useStyles = makeStyles({
     }
 });
 
-const SB = (props) => {
+const Lotte = () => {
     const classes =useStyles();
-    const history =useHistory();
     return (
         <div>
-            <h2>鷹スレ</h2>
-            <img className={classes.img} src={`${process.env.PUBLIC_URL}/sb1.jpg`}/>
+            <h2>鴎スレ</h2>
+            <img className={classes.img} src={`${process.env.PUBLIC_URL}/lotte1.jpg`}/>
             <Chat />
         </div>
 
 
     );
 };
-export default SB;
+export default Lotte;
+
