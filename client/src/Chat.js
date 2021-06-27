@@ -39,7 +39,7 @@ const Chat = (props) => {
     // 初期のオブジェクトを代入する変数とそれを変更する変数を用意
     const [items, setItems] = useState([]);
     const [comment, setComment] = useState({
-        name: '', message:''
+        name: '', message:'', likePoint:'0'
     })
 
     const handleInputNameChange = event => {
@@ -60,6 +60,24 @@ const Chat = (props) => {
         newMessage.message = value;
         setComment(newMessage);
     }
+
+    const handleInputLikePointChange = event => {
+        const value = event.target.value;
+        const newLikePoint = {...comment};
+        newLikePoint.message = value;
+        setComment(newLikePoint);
+    }
+
+    const numCount = (item) => {
+        return () => {
+            const targetIndex = items.indexOf(item);
+            items[targetIndex].clickCount = items[targetIndex].clickCount + 1;
+            setItems([...items]);
+
+            likePointClick(items[targetIndex]);
+        }
+    }
+
 
     const handleClick = ()=> {
         const params = {...comment}
@@ -83,6 +101,20 @@ const Chat = (props) => {
             .catch(error => console.error('データを取得できませんでした。：', error));
 
     }
+
+    const likePointClick = (items)=> {
+        const params = {...comment}
+        window.fetch(`/api/comment/${items.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(params),
+            headers: {'Content-Type': 'application/json'}
+        }).then(res => {
+            if (res.ok){
+                getWebApi();
+            }
+        })
+    };
+
 
     useEffect (() => {
         window.fetch(`/api/comment/${teamId}`, {})
@@ -113,7 +145,7 @@ const Chat = (props) => {
                     onChange={handleInputMessageChange}
                     value={comment.message}
                 />
-                <Button variant="contained" color="primary" className={classes.button} onClick={handleClick}>
+                <Button variant="contained" color="primary" className={classes.button} onClick={numCount}>
                     投稿
                 </Button>
             </form>
@@ -122,7 +154,11 @@ const Chat = (props) => {
                 {items.map(item =>(
                     <ListItem key={item}>
                         <ListItemText primary={item.name} secondary={item.message}/>
+                        <Button variant="contained" color="primary" value={item.likePoint} className={classes.button} onClick={likePointClick}>
+                            いいね
+                        </Button>
                     </ListItem>
+
                 ))}
             </List>
         </React.Fragment>

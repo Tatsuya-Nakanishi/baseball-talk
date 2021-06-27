@@ -1,10 +1,7 @@
 package com.example.baseballtalk1.persistence.mapper;
 
 import com.example.baseballtalk1.persistence.entity.Comment;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -19,6 +16,11 @@ public interface CommentMapper {
             " VALUES(#{name}, #{message}, #{teamId}, #{likePoint}, #{userId})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void commentInsert(Comment comment);
+
+    @Update("UPDATE comment" +
+            " SET name = #{name}, message = #{message}, team_id = #{teamId}, like_point = #{likePoint}, user_id = #{userId}" +
+            " WHERE id = #{id}")
+    void updateLikePoint(Comment comment);
 
 
 

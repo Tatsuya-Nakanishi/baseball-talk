@@ -4,12 +4,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import {BrowserRouter,Route,Link,Switch} from "react-router-dom";
 import {List,Toolbar} from "@material-ui/core";
 import Home from "./Home";
-import SB from "./softbank/SB";
-import Lotte from "./lotte/Lotte";
-// import Seibu from "./Seibu";
-// import Rakuten from "./Rakuten";
-// import Nichihamu from "./Nichihamu";
-// import Orix from "./Orix";
+import Team from "./Team";
+
 
 const useStyles = makeStyles({
 
@@ -31,12 +27,8 @@ const App = (props) => {
           </Link>
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route path='/:teamId' component={SB} />
-            <Route path='/:teamId' component={Lotte} />
-            {/*<Route path='/Seibu' component={Seibu} />*/}
-            {/*<Route path='/Rakuten' component={Rakuten} />*/}
-            {/*<Route path='/Nichihamu' component={Nichihamu} />*/}
-            {/*<Route path='/Orix' component={Orix} />*/}
+            <Route path='/:teamId' component={Team} />
+
 
 
 
@@ -45,10 +37,10 @@ const App = (props) => {
             <List className={classes.content}>
               <Link to='/1'>ソフトバンク</Link>-
               <Link to='/2'>ロッテ</Link>-
-              <Link to='/Seibu'>西武</Link>-
-              <Link to='/Rakuten'>楽天</Link>-
-              <Link to='/Nichihamu'>日本ハム</Link>-
-              <Link to='/Orix'>オリックス</Link>
+              <Link to='/3'>西武</Link>-
+              <Link to='/4'>楽天</Link>-
+              <Link to='/5'>日本ハム</Link>-
+              <Link to='/6'>オリックス</Link>
             </List>
           </Toolbar>
         </BrowserRouter>

@@ -29,4 +29,10 @@ public class CommentServiceImpl implements CommentService {
     public void commentInsert(Comment comment) {
         commentMapper.commentInsert(comment);
     }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void updateLikePoint(Comment comment) {
+        commentMapper.updateLikePoint(comment);
+    }
 }
