@@ -3,8 +3,12 @@ package com.example.baseballtalk1.web.request;
 import com.example.baseballtalk1.persistence.entity.Comment;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import javax.validation.constraints.NotBlank;
+
 public class CommentRequest {
+    @NotBlank
     private String name;
+    @NotBlank
     private String message;
     private Integer teamId;
     private Integer likePoint;

@@ -32,7 +32,15 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = false)
-    public void updateLikePoint(Comment comment) {
+    public void updateLikePoint(Integer id) {
+        Comment comment = commentMapper.findById(id);
+        comment.setLikePoint(comment.getLikePoint() + 1);
         commentMapper.updateLikePoint(comment);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteComment(Integer id) {
+        commentMapper.deleteComment(id);
     }
 }

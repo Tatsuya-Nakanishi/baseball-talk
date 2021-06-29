@@ -52,16 +52,18 @@ public class CommentRestController {
         return ResponseEntity.created(location).body(commentResponse);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateLikePoint(@PathVariable Integer id,
-                                          @RequestBody CommentRequest commentRequest) {
-        Comment comment = commentRequest.convertToEntity();
-        comment.setId(id);
+    @PatchMapping ("/{id}")
+    public ResponseEntity updateLikePoint(@PathVariable Integer id) {
 
+        commentService.updateLikePoint(id);
 
-        CommentResponse commentResponse = new CommentResponse(comment);
-        commentService.updateLikePoint(comment);
+        return ResponseEntity.ok().build();
+    }
 
-        return ResponseEntity.ok().body(commentResponse);
+    @DeleteMapping ("/{id}")
+    public ResponseEntity deleteComment(@PathVariable Integer id) {
+        commentService.deleteComment(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

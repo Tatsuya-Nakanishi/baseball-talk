@@ -19,7 +19,9 @@ const Team = (props) => {
     const history =useHistory();
     const {teamId} = useParams();
 
-    const [item, setItem] = useState(null);
+    const [item, setItem] = useState({
+        teamName: "", teamImage: ""
+    });
 
     // const getWebApi = (item) =>{
     //     window.fetch(`/team/${teamId}`, {})
@@ -31,20 +33,20 @@ const Team = (props) => {
     //
     // }
 
-    useEffect ((item) => {
+    useEffect (() => {
         window.fetch(`/team/${teamId}`, {})
             .then(res => res.json())
             .then(response => {
-                setItem([response]);
+                setItem(response);
             })
             .catch(error => console.error('データを取得できませんでした。：', error));
     }, [teamId]);
 
     return (
         <div>
-            <Typography>スレ</Typography>
+            <Typography>{item.teamName}</Typography>
             
-            <img className={classes.img} src={`${process.env.PUBLIC_URL}/sb1.jpg`}/>
+            <img className={classes.img} src={`${process.env.PUBLIC_URL}${item.teamImage}`}/>
             <Chat />
 
         </div>

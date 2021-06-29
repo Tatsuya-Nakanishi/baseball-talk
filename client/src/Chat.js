@@ -61,20 +61,15 @@ const Chat = (props) => {
         setComment(newMessage);
     }
 
-    const handleInputLikePointChange = event => {
-        const value = event.target.value;
-        const newLikePoint = {...comment};
-        newLikePoint.message = value;
-        setComment(newLikePoint);
-    }
-
     const numCount = (item) => {
         return () => {
-            const targetIndex = items.indexOf(item);
-            items[targetIndex].clickCount = items[targetIndex].clickCount + 1;
-            setItems([...items]);
+            likePointClick(item);
+        }
+    }
 
-            likePointClick(items[targetIndex]);
+    const deleteEvent = (item)=> {
+        return () => {
+            deleteWebApi(item);
         }
     }
 
@@ -103,10 +98,19 @@ const Chat = (props) => {
     }
 
     const likePointClick = (items)=> {
-        const params = {...comment}
         window.fetch(`/api/comment/${items.id}`, {
-            method: 'PUT',
-            body: JSON.stringify(params),
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'}
+        }).then(res => {
+            if (res.ok){
+                getWebApi();
+            }
+        })
+    };
+
+    const deleteWebApi = (items)=> {
+        window.fetch(`/api/comment/${items.id}`, {
+            method: 'DELETE',
             headers: {'Content-Type': 'application/json'}
         }).then(res => {
             if (res.ok){
@@ -145,17 +149,20 @@ const Chat = (props) => {
                     onChange={handleInputMessageChange}
                     value={comment.message}
                 />
-                <Button variant="contained" color="primary" className={classes.button} onClick={numCount}>
+                <Button variant="contained" color="primary" className={classes.button} onClick={handleClick}>
                     投稿
                 </Button>
             </form>
             <List className={classes.root}>
                 {/*一覧データの配列をmap関数でJSXに変換する*/}
                 {items.map(item =>(
-                    <ListItem key={item}>
+                    <ListItem key={item.id}>
                         <ListItemText primary={item.name} secondary={item.message}/>
-                        <Button variant="contained" color="primary" value={item.likePoint} className={classes.button} onClick={likePointClick}>
-                            いいね
+                        <Button variant="contained" color="primary" value={item.likePoint} className={classes.button} onClick={numCount(item)}>
+                          いいね！  {item.likePoint}
+                        </Button>
+                        <Button variant="contained" color="primary"  className={classes.button} onClick={deleteEvent(item)}>
+                            削除
                         </Button>
                     </ListItem>
 
